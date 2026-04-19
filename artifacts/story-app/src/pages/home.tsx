@@ -40,18 +40,14 @@ export default function Home() {
           setTitle("");
           
           if (firstLine.trim()) {
-            // If they provided a first line, we need to go to the story page 
-            // and maybe trigger an initial message. But we can just navigate there
-            // and pass it in state, or send the first message here.
-            // Sending it here is complex because of SSE, let's just create it.
             try {
                await fetch(`/api/openrouter/conversations/${newConv.id}/messages`, {
                  method: "POST",
                  headers: { "Content-Type": "application/json" },
-                 body: JSON.stringify({ content: firstLine }),
+                 body: JSON.stringify({ content: firstLine, skipAiCompletion: true }),
                });
             } catch (e) {
-               console.error("Failed initial message", e);
+               console.error("Failed to save opening line", e);
             }
           }
           

@@ -17,4 +17,5 @@ export interface SendOpenrouterMessageBody {
   apiKey?: string | null;
   /** @nullable */
   apiUrl?: string | null;
+  skipAiCompletion?: boolean;
 }

@@ -115,7 +115,7 @@ router.post("/openrouter/conversations/:id/messages", async (req, res): Promise<
   }
 
   const conversationId = params.data.id;
-  const { content: userContent, model, maxTokens, temperature, apiKey, apiUrl } = bodyParsed.data;
+  const { content: userContent, model, maxTokens, temperature, apiKey, apiUrl, skipAiCompletion } = bodyParsed.data;
 
   const [conv] = await db
     .select()
@@ -126,11 +126,16 @@ router.post("/openrouter/conversations/:id/messages", async (req, res): Promise<
     return;
   }
 
-  await db.insert(messagesTable).values({
+  const [savedMessage] = await db.insert(messagesTable).values({
     conversationId,
     role: "user",
     content: userContent,
-  });
+  }).returning();
+
+  if (skipAiCompletion) {
+    res.status(201).json(savedMessage);
+    return;
+  }
 
   const allMessages = await db
     .select()

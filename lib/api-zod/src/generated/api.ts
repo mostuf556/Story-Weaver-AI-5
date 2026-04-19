@@ -114,4 +114,5 @@ export const SendOpenrouterMessageBody = zod.object({
   temperature: zod.number().nullish(),
   apiKey: zod.string().nullish(),
   apiUrl: zod.string().nullish(),
+  skipAiCompletion: zod.boolean().optional(),
 });

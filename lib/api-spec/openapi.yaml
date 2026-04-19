@@ -236,6 +236,8 @@ components:
           type: ["string", "null"]
         apiUrl:
           type: ["string", "null"]
+        skipAiCompletion:
+          type: boolean
       required:
         - content
     OpenrouterConversationWithMessages:
